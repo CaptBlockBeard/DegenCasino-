@@ -11,7 +11,7 @@ export const GET = async (req: Request) => {
    
 
     const baseHref = new URL(
-      `/api/swap?`,
+      `/api/actions/swap?`,
       requestUrl.origin,
     ).toString();
 
@@ -37,7 +37,7 @@ export const GET = async (req: Request) => {
                 },
                 {
                     label: "Spin, ye Buccaneer!",
-                    href: '/api/actions/swap?amount={amount}', // this href will have a text input
+                    href: `${baseHref}amount=$INPUT_AMOUNT`, // this href will have a text input
                     parameters: [
                       {
                         name: "amount",
