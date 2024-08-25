@@ -37,7 +37,7 @@ export const GET = async (req: Request) => {
                 },
                 {
                     label: "Spin, ye Buccaneer!",
-                    href: `${baseHref}amount=spinAmount`, // this href will have a text input
+                    href: `${baseHref}amount=SpinAmount`, // this href will have a text input
                     parameters: [
                       {
                         name: "SpinAmount",
