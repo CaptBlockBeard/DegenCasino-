@@ -19,7 +19,7 @@ export const GET = async (req: Request) => {
         type: "action",
         icon: new URL("/CAPTbb_gif3.webp", new URL(req.url).origin).toString(),
         label: "Spin the Wheel, Buccaneer!",
-        title: `Arrr! 🏴‍☠️ Gather 'round, ye scallywags.  What loot be in yer chest? What coin will ye plunder, matey? Spin the wheel of fortune and see what treasure lies in the depths, the seas be wild and full of surprises—so take yer chance and see what bounty awaits ye!`,
+        title: `Arrr! 🏴‍☠️ Gather 'round, ye scallywags.  What loot be in yer chest? What coin will ye plunder, matey? Spin the wheel of fortune and see what treasure lies in the depths. The seas be wild and full of surprises—so take yer chance and see what bounty awaits ye!`,
         description: "⚓ Remember, this be no treasure map—just a bit o' fun. Not financial advice, so keep yer doubloons safe! A 1% cut be the price o' entry, matey! 'Tis so the Captain can secure a fine pirate ship and these tributes be hopin' to fund a voyage to Solana Breakpoint. Arrrrrrrrrrr ",
         links: {
             actions: [
