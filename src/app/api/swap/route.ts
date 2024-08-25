@@ -1,15 +1,14 @@
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, createPostResponse } from "@solana/actions";
 import { AddressLookupTableAccount, Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, TransactionInstruction, TransactionMessage, VersionedTransaction } from "@solana/web3.js";
 
-// import jupiterApi from "@/app/util/jupiter-api";
-import { jupiterSwap } from "@/app/utl/jupSwap";
+
 import { getRandomToken } from "@/app/utl/getRandomToken";
 
 
 
 export const GET = async (req: Request) => {
     const requestUrl = new URL(req.url);
-    const amount = 0.001
+   
 
     const baseHref = new URL(
       `/api/swap?`,
@@ -18,10 +17,10 @@ export const GET = async (req: Request) => {
 
     const payload: ActionGetResponse = {
         type: "action",
-        icon: new URL("/CAPTbb_gif3", new URL(req.url).origin).toString(),
+        icon: new URL("/CAPTbb_gif3.webp", new URL(req.url).origin).toString(),
         label: "Spin the Wheel, Buccaneer!",
-        title: "Arrr!, What booty be in yer chest? What coin will ye plunder, matey? Spin the wheel and see what treasure awaits ye!",
-        description: "Remember, this be no treasure map—just a bit o' fun. Not financial advice, so keep yer doubloons safe! A 1% cut be the price o' entry, matey! Arrr!",
+        title: `Arrr! 🏴‍☠️ Gather 'round, ye scallywags.  What loot be in yer chest? What coin will ye plunder, matey? Spin the wheel of fortune and see what treasure lies in the depths, the seas be wild and full of surprises—so take yer chance and see what bounty awaits ye!`,
+        description: "⚓ Remember, this be no treasure map—just a bit o' fun. Not financial advice, so keep yer doubloons safe! A 1% cut be the price o' entry, matey! 'Tis so the Captain can secure a fine pirate ship and these tributes be hopin' to fund a voyage to Solana Breakpoint. Arrrrrrrrrrr ",
         links: {
             actions: [
                 {
@@ -33,8 +32,8 @@ export const GET = async (req: Request) => {
                   href: `${baseHref}&amount=${"0.5"}`,
                 },
                 {
-                  label: "Spin fer 0.9 SOL, ye landlubber!", // button text
-                  href: `${baseHref}&amount=${"0.09"}`,
+                  label: "Spin fer 0.25 SOL, ye landlubber!", // button text
+                  href: `${baseHref}&amount=${"0.25"}`,
                 },
                 {
                   label: "Spin, ye Buccaneer!", // button text
@@ -107,7 +106,7 @@ export const POST = async (req: Request) => {
                 await fetch(`https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=${RandomToken.mint}&amount=${spinAmount}`
                 )
             ).json();
-            //console.log({ quoteResponse })
+            console.log({ quoteResponse })
 
             const instructions = await (
                 await fetch('https://quote-api.jup.ag/v6/swap-instructions', {
@@ -206,6 +205,10 @@ export const POST = async (req: Request) => {
 
             const transaction = new VersionedTransaction(messageV0);
 
+            // makes the transaction take more time to process 
+            // const simulation = await connection.simulateTransaction(transaction);
+            // console.log("Simulation:", simulation);
+
             // Serialize the transaction
             const serializedTransaction = transaction.serialize();
             const base64Transaction = Buffer.from(serializedTransaction).toString('base64');
@@ -213,7 +216,7 @@ export const POST = async (req: Request) => {
             
             const customResponse = {
                 transaction: base64Transaction,
-                message: "Jupiter swap transaction created successfully",
+                message: `Ye've found the treasure! The coins be swapped, and the loot's now in yer chest! Arrr!`,
             };
 
             return Response.json(customResponse, {
