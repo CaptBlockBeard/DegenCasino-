@@ -25,22 +25,22 @@ export const GET = async (req: Request) => {
             actions: [
                 {
                   label: "Spin fer 1 SOL, ye scallywag!", // button text
-                  href: `${baseHref}amount=${"1"}`,
+                  href: `${baseHref}&amount=${"1"}`,
                 },
                 {
                   label: "Spin fer 0.5 SOL, ye barnacle!", // button text
-                  href: `${baseHref}amount=${"0.5"}`,
+                  href: `${baseHref}&amount=${"0.5"}`,
                 },
                 {
                   label: "Spin fer 0.25 SOL, ye landlubber!", // button text
-                  href: `${baseHref}amount=${"0.25"}`,
+                  href: `${baseHref}&amount=${"0.25"}`,
                 },
                 {
                     label: "Spin, ye Buccaneer!",
-                    href: `${baseHref}amount=SpinAmount`, // this href will have a text input
+                    href: `${baseHref}&amount={amount}`, // this href will have a text input
                     parameters: [
                       {
-                        name: "SpinAmount",
+                        name: "amount",
                         label: "Set yer SOL",
                         required: true,
                       },
@@ -62,18 +62,14 @@ export const OPTIONS = GET;
 
 export const POST = async (req: Request) => {
     try {
+        const requestUrl = new URL(req.url);
+
         const body: ActionPostRequest = await req.json();
         let account: PublicKey
         let amount: number = 0;
         try {
             account = new PublicKey(body.account);
-
-            const requestUrl = new URL(req.url);
-            if (requestUrl.searchParams.get("amount")) {
-                amount = parseFloat(requestUrl.searchParams.get("amount")!);
-              }
-          
-              if (amount < 0.005) throw "amount is too small";
+            console.log(requestUrl.searchParams.get("SpinAmount"))
         
         } catch (error) {
             console.error("nvalid input error:", error);
@@ -82,6 +78,17 @@ export const POST = async (req: Request) => {
                 status: 400
             });
         }
+
+        try {
+            if (requestUrl.searchParams.get("amount")) {
+              amount = parseFloat(requestUrl.searchParams.get("amount")!);
+            }
+            if (amount <= 0) throw "amount is too small";
+          } catch (err) {
+            throw "Invalid input query parameter: amount";
+          }
+
+
         console.log("Account:", account.toBase58());
         console.log("Amount:", amount);
 
