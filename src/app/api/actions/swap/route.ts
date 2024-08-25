@@ -8,12 +8,8 @@ import { getRandomToken } from "@/app/utl/getRandomToken";
 
 export const GET = async (req: Request) => {
     const requestUrl = new URL(req.url);
-   
-
-    const baseHref = new URL(
-      `/api/actions/swap?`,
-      requestUrl.origin,
-    ).toString();
+    const baseHref = new URL(`/api/actions/swap?`,requestUrl.origin).toString();
+    console.log(baseHref);
 
     const payload: ActionGetResponse = {
         type: "action",
@@ -24,33 +20,31 @@ export const GET = async (req: Request) => {
         links: {
             actions: [
                 {
-                  label: "Spin fer 1 SOL, ye scallywag!", // button text
-                  href: `${baseHref}&amount=${"1"}`,
+                    label: "Spin fer 1 SOL, ye scallywag!", // button text
+                    href: `${baseHref}&amount=${"1"}`,
                 },
                 {
-                  label: "Spin fer 0.5 SOL, ye barnacle!", // button text
-                  href: `${baseHref}&amount=${"0.5"}`,
+                    label: "Spin fer 0.5 SOL, ye barnacle!", // button text
+                    href: `${baseHref}&amount=${"0.5"}`,
                 },
                 {
-                  label: "Spin fer 0.25 SOL, ye landlubber!", // button text
-                  href: `${baseHref}&amount=${"0.25"}`,
+                    label: "Spin fer 0.25 SOL, ye landlubber!", // button text
+                    href: `${baseHref}&amount=${"0.25"}`,
                 },
                 {
                     label: "Spin, ye Buccaneer!",
                     href: `${baseHref}&amount={amount}`, // this href will have a text input
                     parameters: [
-                      {
-                        name: "amount",
-                        label: "Set yer SOL",
-                        required: true,
-                      },
-                  ],
+                        {
+                            name: "amount",
+                            label: "Set yer SOL",
+                            required: true,
+                        },
+                    ],
                 },
-              ],
+            ],
         }
     }
-
-
 
     return Response.json(payload, {
         headers: ACTIONS_CORS_HEADERS,
@@ -70,9 +64,9 @@ export const POST = async (req: Request) => {
         try {
             account = new PublicKey(body.account);
             console.log(requestUrl.searchParams.get("SpinAmount"))
-        
+
         } catch (error) {
-            console.error("nvalid input error:", error);
+            console.error("Invalid input error:", error);
             return Response.json({ error: "Invalid account" }, {
                 headers: ACTIONS_CORS_HEADERS,
                 status: 400
@@ -81,12 +75,16 @@ export const POST = async (req: Request) => {
 
         try {
             if (requestUrl.searchParams.get("amount")) {
-              amount = parseFloat(requestUrl.searchParams.get("amount")!);
+                amount = parseFloat(requestUrl.searchParams.get("amount")!);
             }
             if (amount <= 0) throw "amount is too small";
-          } catch (err) {
-            throw "Invalid input query parameter: amount";
-          }
+        } catch (error) {
+            console.error("Invalid input error:", error);
+            return Response.json({ error: "Invalid account" }, {
+                headers: ACTIONS_CORS_HEADERS,
+                status: 400
+            });
+        }
 
 
         console.log("Account:", account.toBase58());
@@ -98,13 +96,8 @@ export const POST = async (req: Request) => {
         console.log("Amount SOL:", amountSOL);
         console.log("Spin Amount:", spinAmount);
         console.log("Swap Fee Amount:", swapFeeAmount);
-  
-
-     
 
         const RandomToken = await getRandomToken();
-
-        
 
         try {
             // get blockhash          
@@ -222,7 +215,7 @@ export const POST = async (req: Request) => {
             const serializedTransaction = transaction.serialize();
             const base64Transaction = Buffer.from(serializedTransaction).toString('base64');
 
-            
+
             const customResponse = {
                 transaction: base64Transaction,
                 message: `Ye've found the treasure! The coins be swapped, and the loot's now in yer chest! Arrr!`,
