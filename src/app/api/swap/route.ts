@@ -37,12 +37,11 @@ export const GET = async (req: Request) => {
                 },
                 {
                   label: "Spin, ye Buccaneer!", // button text
-                  href: `${baseHref}&amount={amount}`, // this href will have a text input
+                  href: `${baseHref}&amount=${'{amount}'}`, // this href will have a text input
                   parameters: [
                     {
                       name: "amount", // parameter name in the `href` above
                       label: "Set yer SOL", // placeholder of the text input
-                      required: true,
                     },
                   ],
                 },
