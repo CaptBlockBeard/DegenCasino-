@@ -25,24 +25,23 @@ export const GET = async (req: Request) => {
             actions: [
                 {
                   label: "Spin fer 1 SOL, ye scallywag!", // button text
-                  href: `${baseHref}amount=${"1"}`,
+                  href: `${baseHref}&amount=${"1"}`,
                 },
                 {
                   label: "Spin fer 0.5 SOL, ye barnacle!", // button text
-                  href: `${baseHref}amount=${"0.5"}`,
+                  href: `${baseHref}&amount=${"0.5"}`,
                 },
                 {
                   label: "Spin fer 0.25 SOL, ye landlubber!", // button text
-                  href: `${baseHref}amount=${"0.25"}`,
+                  href: `${baseHref}&amount=${"0.25"}`,
                 },
                 {
                     label: "Spin, ye Buccaneer!",
-                    href: `${baseHref}amount=$\{amount}`,   // this href will have a text input
+                    href: `${baseHref}&amount={amount}`, // this href will have a text input
                     parameters: [
                       {
                         name: "amount",
                         label: "Set yer SOL",
-                        type: "number",
                         required: true,
                       },
                   ],
@@ -65,15 +64,17 @@ export const POST = async (req: Request) => {
     try {
         const body: ActionPostRequest = await req.json();
         let account: PublicKey
-        let amount: number;
+        let amount: number = 0;
         try {
             account = new PublicKey(body.account);
 
-            const url = new URL(req.url);
-            amount = parseFloat(url.searchParams.get("amount") || "0.1");
-            if (isNaN(amount) || amount < 0.005 || amount > 100) {
-                throw new Error("Invalid amount");
-            }
+            const requestUrl = new URL(req.url);
+            if (requestUrl.searchParams.get("amount")) {
+                amount = parseFloat(requestUrl.searchParams.get("amount")!);
+              }
+          
+              if (amount <= 0.005) throw "amount is too small";
+        
         } catch (error) {
             console.error("nvalid input error:", error);
             return Response.json({ error: "Invalid account" }, {
