@@ -25,15 +25,15 @@ export const GET = async (req: Request) => {
             actions: [
                 {
                   label: "Spin fer 1 SOL, ye scallywag!", // button text
-                  href: `${baseHref}&amount=${"1"}`,
+                  href: `${baseHref}amount=${"1"}`,
                 },
                 {
                   label: "Spin fer 0.5 SOL, ye barnacle!", // button text
-                  href: `${baseHref}&amount=${"0.5"}`,
+                  href: `${baseHref}amount=${"0.5"}`,
                 },
                 {
                   label: "Spin fer 0.25 SOL, ye landlubber!", // button text
-                  href: `${baseHref}&amount=${"0.25"}`,
+                  href: `${baseHref}amount=${"0.25"}`,
                 },
                 {
                   label: "Spin, ye Buccaneer!", // button text
