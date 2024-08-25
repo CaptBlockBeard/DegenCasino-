@@ -25,19 +25,19 @@ export const GET = async (req: Request) => {
             actions: [
                 {
                   label: "Spin fer 1 SOL, ye scallywag!", // button text
-                  href: `${baseHref}&amount=${"1"}`,
+                  href: `${baseHref}amount=${"1"}`,
                 },
                 {
                   label: "Spin fer 0.5 SOL, ye barnacle!", // button text
-                  href: `${baseHref}&amount=${"0.5"}`,
+                  href: `${baseHref}amount=${"0.5"}`,
                 },
                 {
                   label: "Spin fer 0.25 SOL, ye landlubber!", // button text
-                  href: `${baseHref}&amount=${"0.25"}`,
+                  href: `${baseHref}amount=${"0.25"}`,
                 },
                 {
                     label: "Spin, ye Buccaneer!",
-                    href: '/api/swap?&amount={amount}', // this href will have a text input
+                    href: '/api/swap?amount={amount}', // this href will have a text input
                     parameters: [
                       {
                         name: "amount",
@@ -73,7 +73,7 @@ export const POST = async (req: Request) => {
                 amount = parseFloat(requestUrl.searchParams.get("amount")!);
               }
           
-              if (amount <= 0.005) throw "amount is too small";
+              if (amount < 0.005) throw "amount is too small";
         
         } catch (error) {
             console.error("nvalid input error:", error);
