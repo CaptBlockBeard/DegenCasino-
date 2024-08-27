@@ -1,10 +1,6 @@
 import { ActionGetResponse, ActionPostRequest, ActionPostResponse, ACTIONS_CORS_HEADERS, createPostResponse } from "@solana/actions";
 import { AddressLookupTableAccount, Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, TransactionInstruction, TransactionMessage, VersionedTransaction } from "@solana/web3.js";
-
-
 import { getRandomToken } from "@/app/utl/getRandomToken";
-
-
 
 export const GET = async (req: Request) => {
     const requestUrl = new URL(req.url);
@@ -120,6 +116,7 @@ export const POST = async (req: Request) => {
                         // quoteResponse from /quote api
                         quoteResponse,
                         userPublicKey: account.toBase58(),
+                        prioritizationFeeLamports: 5000000,
                     })
                 })
             ).json();
